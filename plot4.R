@@ -17,9 +17,24 @@ setAs("character", "myDate", function(from) as.Date(from, format="%d/%m/%Y"))
 dataset <- read.csv2(filename, colClasses = c("myDate", "character", rep("numeric", 7)), na.strings = "?", dec = ".")
 subset <- dataset[dataset$Date>="2007-02-01" & dataset$Date<"2007-02-03",]
 
-subset$DateTime <- strptime(paste(subset$Date, " ", subset$Time), format = "%Y-%m-%d %H:%M:%S")
+subset$datetime <- strptime(paste(subset$Date, " ", subset$Time), format = "%Y-%m-%d %H:%M:%S")
 
 #Plot (default for png is 480x480)
-png(filename = "plot2.png")
-with(subset, plot(DateTime, Global_active_power, ylab = "Global Active Power (kilowatts)", xlab = "", type ="l"))
+png(filename = "plot4.png")
+par(mfrow = c(2,2))
+
+
+with(subset, plot(datetime, Global_active_power, ylab = "Global Active Power", xlab = "", type ="l"))
+
+
+with(subset, plot(datetime, Voltage, type ="l"))
+
+
+with(subset, plot(datetime, Sub_metering_1, ylab = "Energy sub metering", xlab = "", type ="l"))
+with(subset, lines(datetime, Sub_metering_2, col="red"))
+with(subset, lines(datetime, Sub_metering_3, col="blue"))
+legend("topright", bty = "n", col = c("black", "red", "blue"), lwd = c(1, 1, 1), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3") )
+
+
+with(subset, plot(datetime, Global_reactive_power, type ="l"))
 dev.off()
