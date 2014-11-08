@@ -16,8 +16,9 @@ setAs("character", "myDate", function(from) as.Date(from, format="%d/%m/%Y"))
 setClass('myTime')
 setAs("character", "myTime", function(from) strptime(from, format="%H:%M:%S"))
 
-dataset <- read.csv2(filename, colClasses = c(Date="myDate", Time="myTime", rep("numeric", 7)), na.strings = "?", dec = ".")
-
+dataset <- read.csv2(filename, colClasses = c("myDate", "character", rep("numeric", 7)), na.strings = "?", dec = ".")
 subset <- dataset[dataset$Date>="2007-02-01" & dataset$Date<"2007-02-03",]
+
+subset$DateTime <- strptime(paste(subset$Date, " ", subset$Time), format = "%Y-%m-%d %H:%M:%S")
 
 hist(subset$Global_active_power, col="red", xlab = "Global Active Power (kilowatts)", main = "Global Active Power")
