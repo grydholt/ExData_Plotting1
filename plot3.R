@@ -19,4 +19,11 @@ subset <- dataset[dataset$Date>="2007-02-01" & dataset$Date<"2007-02-03",]
 subset$DateTime <- strptime(paste(subset$Date, " ", subset$Time), format = "%Y-%m-%d %H:%M:%S")
 
 # Plot
-plot(subset$DateTime, subset$Global_active_power, ylab = "Global Active Power (kilowatts)", xlab = "", type ="l")
+par(fg="black")
+plot(subset$DateTime, subset$Sub_metering_1, ylab = "Energy sub metering", xlab = "", type ="l")
+legend("topright", col = c("black", "red", "blue"), lwd = c(1, 1, 1), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3") )
+
+par(fg="red")
+lines(subset$DateTime, subset$Sub_metering_2)
+par(fg="blue")
+lines(subset$DateTime, subset$Sub_metering_3)
